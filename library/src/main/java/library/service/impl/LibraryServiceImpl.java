@@ -16,8 +16,8 @@ public class LibraryServiceImpl implements LibraryService {
     private LibraryRepository libraryRepository;
 
     public List<BookEntity> getAllBooks() {
-        List<BookEntity> result = new ArrayList<>();
-        libraryRepository.findAll().forEach(result::add);
-        return result;
+        List<BookEntity> allBooksList = new ArrayList<>();
+        libraryRepository.findAll().forEach(allBooksList::add);
+        return allBooksList;
     }
 }
