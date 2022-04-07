@@ -17,14 +17,14 @@ public class Application {
     }
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
 
-            repository.save(new UserEntity(1, "John"));
-            repository.save(new UserEntity(2, "Brian"));
+            userRepository.save(new UserEntity(1, "John"));
+            userRepository.save(new UserEntity(2, "Brian"));
         };
     }
 }

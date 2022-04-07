@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Collection;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 public class LibraryServiceTestImpl {
 
     private static final String FIRST_BOOK_NAME = "First Book";
