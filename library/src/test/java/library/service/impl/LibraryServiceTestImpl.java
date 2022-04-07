@@ -27,6 +27,7 @@ public class LibraryServiceTestImpl {
 
     @Test
     public void testWhenNoBooksInLibrary() {
+        libraryRepository.deleteAll();
         Assertions.assertEquals(0, ((Collection<?>) libraryRepository.findAll()).size());
 
         Assertions.assertEquals(0, libraryService.getAllBooks().size());
@@ -34,6 +35,7 @@ public class LibraryServiceTestImpl {
 
     @Test
     public void testWhenThereAreBooksInLibrary() {
+        libraryRepository.deleteAll();
         libraryRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).build());
         Assertions.assertEquals(1, ((Collection<?>) libraryRepository.findAll()).size());
 
