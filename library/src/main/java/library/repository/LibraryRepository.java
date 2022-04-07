@@ -1,8 +1,11 @@
 package library.repository;
 
+import library.entity.BookEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.awt.print.Book;
 
-public interface LibraryRepository extends CrudRepository<Book, Integer> {
+
+@Repository
+public interface LibraryRepository extends CrudRepository<BookEntity, Integer> {
 }
