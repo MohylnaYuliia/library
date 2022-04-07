@@ -1,9 +1,10 @@
 package library.service;
 
-import java.awt.print.Book;
+import library.entity.BookEntity;
+
 import java.util.List;
 
 public interface LibraryService {
 
-    List<Book> getAllBooks();
+    List<BookEntity> getAllBooks();
 }

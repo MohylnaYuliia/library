@@ -26,7 +26,7 @@ public class LibraryServiceTestImpl {
     public void testWhenNoBooksInLibrary() {
         Assertions.assertEquals(0, ((Collection<?>) libraryRepository.findAll()).size());
 
-        Assertions.assertEquals(0, libraryService.getAllBooks());
+        Assertions.assertEquals(0, libraryService.getAllBooks().size());
     }
 
 
