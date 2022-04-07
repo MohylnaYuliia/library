@@ -16,5 +16,4 @@ public class BookEntity {
 
     private String name;
 
-    private Integer copyCount;
 }
