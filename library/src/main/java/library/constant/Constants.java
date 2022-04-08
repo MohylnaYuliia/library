@@ -1,0 +1,13 @@
+package library.constant;
+
+public final class Constants {
+
+    private Constants() {
+
+    }
+
+    public final static String USER_CANNOT_BORROW_BOOK_MSG = "User cannot borrow more than 2 books";
+
+    public final static int USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS = 2;
+
+}

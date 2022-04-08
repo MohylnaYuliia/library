@@ -2,13 +2,13 @@ package library.service.impl;
 
 import library.entity.BookEntity;
 import library.entity.UserEntity;
+import library.exception.UserCannotBorrowBookException;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -67,7 +67,7 @@ public class LibraryServiceTestImpl {
     @Transactional
     @Rollback
     public void testWhenUserCanBorrowBookAndBooksRemovedFromLibrary() {
-        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).build());
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).build());
         userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
 
         libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
@@ -85,21 +85,20 @@ public class LibraryServiceTestImpl {
     @Rollback
     @ExceptionHandler
     public void testWhenUserCannotBorrowMoreThanTwoBooks() {
-        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).build());
-        bookRepository.save(BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).build());
-        bookRepository.save(BookEntity.builder().id(THIRD_BOOK_ID).name("Third book").build());
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).build());
+        bookRepository.save(BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).existed(true).build());
+        bookRepository.save(BookEntity.builder().id(THIRD_BOOK_ID).name("Third book").existed(true).build());
 
         userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
 
         libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
         libraryService.borrowBook(FIRST_USER_ID, SECOND_BOOK_ID);
 
-        ApplicationException exception = Assertions.assertThrows(ApplicationException.class, () -> {
+        UserCannotBorrowBookException exception = Assertions.assertThrows(UserCannotBorrowBookException.class, () -> {
             libraryService.borrowBook(FIRST_USER_ID, THIRD_BOOK_ID);
         });
 
         Assertions.assertEquals("User cannot borrow more than 2 books", exception.getMessage());
-        libraryService.borrowBook(FIRST_USER_ID, THIRD_BOOK_ID);
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
