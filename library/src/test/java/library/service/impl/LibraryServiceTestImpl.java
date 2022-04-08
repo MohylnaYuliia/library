@@ -3,6 +3,7 @@ package library.service.impl;
 import library.entity.BookEntity;
 import library.entity.UserEntity;
 import library.exception.UserCannotBorrowBookException;
+import library.exception.UserNotExistsException;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -115,7 +116,7 @@ public class LibraryServiceTestImpl {
     @Transactional
     @Rollback
     public void testWhenUserNotExists() {
-        UserNotExistsExcetion exception = Assertions.assertThrows(UserNotExistsExcetion.class, () -> {
+        UserNotExistsException exception = Assertions.assertThrows(UserNotExistsException.class, () -> {
             libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
         });
 

@@ -3,6 +3,7 @@ package library.service.impl;
 import library.entity.BookEntity;
 import library.entity.UserEntity;
 import library.exception.UserCannotBorrowBookException;
+import library.exception.UserNotExistsException;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
 import library.service.LibraryService;
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static library.constant.Constants.USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS;
-import static library.constant.Constants.USER_CANNOT_BORROW_BOOK_MSG;
+import static library.constant.Constants.*;
 
 @Service
 public class LibraryServiceImpl implements LibraryService {
@@ -32,7 +32,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public void borrowBook(int userId, int bookId) {
-        UserEntity userEntity = userRepository.findById(userId).get();
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(()-> new UserNotExistsException(USER_NOT_EXISTS_MSG));
         BookEntity bookEntity = bookRepository.findById(bookId).get();
 
         if (userEntity.getBookEntitySet().size() >= USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS) {
