@@ -150,8 +150,4 @@ public class LibraryServiceTestImpl {
 
         Assertions.assertEquals("Book not exists", exception.getMessage());
     }
-
-
-
-
 }
