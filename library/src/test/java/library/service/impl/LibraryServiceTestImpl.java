@@ -137,6 +137,20 @@ public class LibraryServiceTestImpl {
         Assertions.assertEquals("Book not exists", exception.getMessage());
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void testWhenBookNotAvailableInLibrary() {
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(false).build());
+
+        BookNotExistsException exception = Assertions.assertThrows(BookNotExistsException.class, () -> {
+            libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+        });
+
+        Assertions.assertEquals("Book not exists", exception.getMessage());
+    }
+
 
 
 
