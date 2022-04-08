@@ -1,7 +1,7 @@
 package library.service.impl;
 
 import library.entity.BookEntity;
-import library.repository.LibraryRepository;
+import library.repository.BookRepository;
 import library.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,16 @@ import java.util.List;
 public class LibraryServiceImpl implements LibraryService {
 
     @Autowired
-    private LibraryRepository libraryRepository;
+    private BookRepository bookRepository;
 
     public List<BookEntity> getAllBooks() {
         List<BookEntity> allBooksList = new ArrayList<>();
-        libraryRepository.findAll().forEach(allBooksList::add);
+        bookRepository.findAll().forEach(allBooksList::add);
         return allBooksList;
+    }
+
+    @Override
+    public void borrowBook(int firstUserId, int firstBookId) {
+
     }
 }

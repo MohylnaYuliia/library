@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,10 +16,14 @@ import javax.persistence.Id;
 public class BookEntity {
 
     @Id
+    @Column(name = "book_id")
     private Integer id;
 
     private String name;
 
-    private boolean exists;
+    private boolean existed;
+
+    @ManyToMany(mappedBy = "bookEntitySet")
+    private Set<UserEntity> userEntities;
 
 }

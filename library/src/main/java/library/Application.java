@@ -2,7 +2,7 @@ package library;
 
 import library.entity.BookEntity;
 import library.entity.UserEntity;
-import library.repository.LibraryRepository;
+import library.repository.BookRepository;
 import library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,7 +21,7 @@ public class Application {
     private UserRepository userRepository;
 
     @Autowired
-    private LibraryRepository libraryRepository;
+    private BookRepository bookRepository;
 
     @Bean
     public CommandLineRunner demo() {
@@ -29,8 +29,8 @@ public class Application {
             userRepository.save(UserEntity.builder().id(1).name("John").build());
             userRepository.save(UserEntity.builder().id(2).name("Brian").build());
 
-            libraryRepository.save(BookEntity.builder().id(1).name("Harry Potter").build());
-            libraryRepository.save(BookEntity.builder().id(2).name("Harry Potter and chamber of secret").build());
+            bookRepository.save(BookEntity.builder().id(1).name("Harry Potter").build());
+            bookRepository.save(BookEntity.builder().id(2).name("Harry Potter and chamber of secret").build());
         };
     }
 }
