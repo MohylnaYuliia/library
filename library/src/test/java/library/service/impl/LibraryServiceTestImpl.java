@@ -2,6 +2,7 @@ package library.service.impl;
 
 import library.entity.BookEntity;
 import library.entity.UserEntity;
+import library.exception.BookNotExistsException;
 import library.exception.UserCannotBorrowBookException;
 import library.exception.UserNotExistsException;
 import library.repository.BookRepository;
@@ -121,6 +122,19 @@ public class LibraryServiceTestImpl {
         });
 
         Assertions.assertEquals("User not exists", exception.getMessage());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testWhenBookNotExists() {
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+
+        BookNotExistsException exception = Assertions.assertThrows(BookNotExistsException.class, () -> {
+            libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+        });
+
+        Assertions.assertEquals("Book not exists", exception.getMessage());
     }
 
 
