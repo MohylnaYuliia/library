@@ -111,6 +111,17 @@ public class LibraryServiceTestImpl {
         Assertions.assertEquals(2, userBooks.get().getBookEntitySet().size());
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void testWhenUserNotExists() {
+        UserNotExistsExcetion exception = Assertions.assertThrows(UserNotExistsExcetion.class, () -> {
+            libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+        });
+
+        Assertions.assertEquals("User not exists", exception.getMessage());
+    }
+
 
 
 
