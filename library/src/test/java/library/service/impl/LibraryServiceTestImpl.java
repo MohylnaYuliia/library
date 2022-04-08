@@ -22,7 +22,9 @@ public class LibraryServiceTestImpl {
 
     private static final String FIRST_BOOK_NAME = "First Book";
     private static final int FIRST_BOOK_ID = 1;
-    public static final int FIRST_USER_ID = 1;
+    private static final int FIRST_USER_ID = 1;
+    private static final int SECOND_BOOK_ID = 2;
+    private static final String SECOND_BOOK_NAME = "Second book name";
 
     @Autowired
     private LibraryServiceImpl libraryService;
@@ -36,6 +38,7 @@ public class LibraryServiceTestImpl {
     @BeforeEach
     public void setup() {
         bookRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -50,6 +53,7 @@ public class LibraryServiceTestImpl {
     @Rollback
     public void testWhenThereAreBooksInLibrary() {
         bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).build());
+        bookRepository.save(BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).existed(false).build());
         Assertions.assertEquals(1, bookRepository.findByExistedTrue().size());
 
         Assertions.assertEquals(1, libraryService.getAllBooks().size());
@@ -61,7 +65,7 @@ public class LibraryServiceTestImpl {
     @Rollback
     public void testWhenUserCanBorrowBookAndBooksRemovedFromLibrary() {
         bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).build());
-        Assertions.assertEquals(1, ((Collection<?>) bookRepository.findAll()).size());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
 
         libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
