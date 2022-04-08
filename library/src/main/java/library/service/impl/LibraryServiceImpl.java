@@ -2,6 +2,7 @@ package library.service.impl;
 
 import library.entity.BookEntity;
 import library.entity.UserEntity;
+import library.exception.BookNotExistsException;
 import library.exception.UserCannotBorrowBookException;
 import library.exception.UserNotExistsException;
 import library.repository.BookRepository;
@@ -32,8 +33,8 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public void borrowBook(int userId, int bookId) {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(()-> new UserNotExistsException(USER_NOT_EXISTS_MSG));
-        BookEntity bookEntity = bookRepository.findById(bookId).get();
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
+        BookEntity bookEntity = bookRepository.findById(bookId).orElseThrow(() -> new BookNotExistsException(BOOK_NOT_EXISTS_MSG));
 
         if (userEntity.getBookEntitySet().size() >= USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS) {
             throw new UserCannotBorrowBookException(USER_CANNOT_BORROW_BOOK_MSG);
