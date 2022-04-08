@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
@@ -25,6 +27,7 @@ public class LibraryServiceTestImpl {
     private static final int FIRST_USER_ID = 1;
     private static final int SECOND_BOOK_ID = 2;
     private static final String SECOND_BOOK_NAME = "Second book name";
+    private static final int THIRD_BOOK_ID = 3;
 
     @Autowired
     private LibraryServiceImpl libraryService;
@@ -76,6 +79,40 @@ public class LibraryServiceTestImpl {
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
         Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    @ExceptionHandler
+    public void testWhenUserCannotBorrowMoreThanTwoBooks() {
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).build());
+        bookRepository.save(BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).build());
+        bookRepository.save(BookEntity.builder().id(THIRD_BOOK_ID).name("Third book").build());
+
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+
+        libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+        libraryService.borrowBook(FIRST_USER_ID, SECOND_BOOK_ID);
+
+        ApplicationException exception = Assertions.assertThrows(ApplicationException.class, () -> {
+            libraryService.borrowBook(FIRST_USER_ID, THIRD_BOOK_ID);
+        });
+
+        Assertions.assertEquals("User cannot borrow more than 2 books", exception.getMessage());
+        libraryService.borrowBook(FIRST_USER_ID, THIRD_BOOK_ID);
+
+        List<BookEntity> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+
+        Assertions.assertFalse(books.get(0).isExisted());
+        Assertions.assertFalse(books.get(1).isExisted());
+        Assertions.assertTrue(books.get(2).isExisted());
+
+        Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
+        Assertions.assertEquals(2, userBooks.get().getBookEntitySet().size());
+    }
+
+
 
 
 }
