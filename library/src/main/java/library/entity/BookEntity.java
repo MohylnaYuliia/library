@@ -20,4 +20,6 @@ public class BookEntity {
 
     private String name;
 
+    private boolean exists;
+
 }
