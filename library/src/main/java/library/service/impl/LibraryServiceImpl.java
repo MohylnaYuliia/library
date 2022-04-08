@@ -11,7 +11,6 @@ import library.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static library.constant.Constants.*;
@@ -26,9 +25,7 @@ public class LibraryServiceImpl implements LibraryService {
     private UserRepository userRepository;
 
     public List<BookEntity> getAllBooks() {
-        List<BookEntity> allBooksList = new ArrayList<>();
-        bookRepository.findAll().forEach(allBooksList::add);
-        return allBooksList;
+        return bookRepository.findByExistedTrue();
     }
 
     @Override
