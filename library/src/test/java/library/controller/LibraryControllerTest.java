@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,7 +33,7 @@ class LibraryControllerTest {
 
     @Test
     public void testGetAllBooks() throws Exception {
-        when(service.getAllBooks()).thenReturn(Arrays.asList(BookEntity.builder().id(1).name("name").build()));
+        when(service.getAllBooks()).thenReturn(Arrays.asList(BookEntity.builder().id(1).name("name").existed(true).build()));
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/library/books")
                 .accept(MediaType.APPLICATION_JSON))
@@ -52,6 +53,15 @@ class LibraryControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", Matchers.hasSize(0)));
+    }
+
+    @Test
+    public void testBorrowBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/library/books/1/users/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }
