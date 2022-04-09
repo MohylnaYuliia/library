@@ -57,8 +57,10 @@ class LibraryControllerTest {
 
     @Test
     public void testBorrowBook() throws Exception {
+        doNothing().when(service).borrowBook(1,1);
+
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/library/books/1/users/1")
+                .post("/library/books/{bookId}/users/{userId}", 1, 1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
