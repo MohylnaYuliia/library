@@ -264,4 +264,23 @@ public class LibraryServiceTestImpl {
         Assertions.assertEquals(1, books.get(0).getCopy());
         Assertions.assertEquals(2, books.get(1).getCopy());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testWhenUserReturnBooksWhenUserDoNotBorrowedBooks() {
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).copy(1).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+
+        libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
+
+        Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
+        Assertions.assertEquals(0, userBooks.get().getBookEntitySet().size());
+
+        List<BookEntity> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+
+        Assertions.assertTrue(books.get(0).isExisted());
+        Assertions.assertEquals(1, books.get(0).getCopy());
+    }
 }
