@@ -68,8 +68,8 @@ public class LibraryServiceTestImpl {
     @Test
     @Transactional
     @Rollback
-    public void testWhenUserCanBorrowBookAndBooksRemovedFromLibrary() {
-        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).build());
+    public void testWhenUserCanBorrowBookAndNUmberOfCopiesIsLess() {
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).copy(2).build());
         userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
 
         libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
@@ -77,7 +77,8 @@ public class LibraryServiceTestImpl {
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
 
-        Assertions.assertFalse(books.get(0).isExisted());
+        Assertions.assertTrue(books.get(0).isExisted());
+        Assertions.assertEquals(1, books.get(0).getCopy());
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
         Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
     }

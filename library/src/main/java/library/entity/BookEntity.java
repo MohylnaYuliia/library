@@ -23,6 +23,8 @@ public class BookEntity {
 
     private boolean existed;
 
+    private int copy;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
