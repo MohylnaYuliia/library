@@ -66,4 +66,15 @@ class LibraryControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void testReturnOneBook() throws Exception {
+        doNothing().when(service).returnBook(1,1);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/library/books/{bookId}/users/{userId}", 1, 1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
 }
