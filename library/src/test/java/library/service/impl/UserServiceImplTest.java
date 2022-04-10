@@ -45,7 +45,6 @@ class UserServiceImplTest {
         bookRepository.save(book);
         userRepository.save(UserEntity.builder().id(1).name("name").books(new HashSet<>(Arrays.asList(book))).build());
 
-
         List<UserDto> users = userService.getAllUsers();
         Assertions.assertEquals("name", users.get(0).getName());
         Assertions.assertEquals(1, users.get(0).getId());
