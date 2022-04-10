@@ -23,4 +23,9 @@ public class LibraryController {
     public void borrowBook(@PathVariable Integer bookId, @PathVariable Integer userId) {
         libraryService.borrowBook(userId, bookId);
     }
+
+    @DeleteMapping("/books/{bookId}/users/{userId}")
+    public void returnBook(@PathVariable Integer bookId, @PathVariable Integer userId) {
+        libraryService.borrowBook(userId, bookId);
+    }
 }
