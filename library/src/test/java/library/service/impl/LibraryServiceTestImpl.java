@@ -86,6 +86,26 @@ public class LibraryServiceTestImpl {
     @Test
     @Transactional
     @Rollback
+    public void testWhenThereIsOnlyOneCopeOfBookAndAfterBorrowingTheBookNotExisted() {
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).copy(1).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+
+        libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+
+        List<BookEntity> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+
+        Assertions.assertFalse(books.get(0).isExisted());
+        Assertions.assertEquals(0, books.get(0).getCopy());
+        Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
+        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+    }
+
+
+
+    @Test
+    @Transactional
+    @Rollback
     @ExceptionHandler
     public void testWhenUserCannotBorrowMoreThanTwoBooks() {
         bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).build());
