@@ -262,7 +262,7 @@ public class LibraryServiceTestImpl {
         Assertions.assertTrue(books.get(0).isExisted());
         Assertions.assertTrue(books.get(0).isExisted());
         Assertions.assertEquals(1, books.get(0).getCopy());
-        Assertions.assertEquals(2, books.get(0).getCopy());
+        Assertions.assertEquals(2, books.get(1).getCopy());
 
     }
 }
