@@ -1,6 +1,6 @@
 package library.controller;
 
-import library.entity.UserEntity;
+import library.dto.UserDto;
 import library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserEntity> getUsers() {
+    public List<UserDto> getUsers() {
         return userService.getAllUsers();
     }
 }
