@@ -37,8 +37,9 @@ public class LibraryServiceImpl implements LibraryService {
             throw new UserCannotBorrowBookException(USER_CANNOT_BORROW_BOOK_MSG);
         }
         userEntity.getBookEntitySet().add(bookEntity);
-        bookEntity.setExisted(false);
-
+        if (bookEntity.getCopy() > 1) {
+            bookEntity.setCopy(bookEntity.getCopy() - 1);
+        }
         userRepository.save(userEntity);
     }
 }
