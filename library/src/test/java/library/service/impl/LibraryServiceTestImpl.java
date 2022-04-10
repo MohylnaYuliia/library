@@ -232,7 +232,7 @@ public class LibraryServiceTestImpl {
         libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(0, userBooks.get().getBookEntitySet().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);

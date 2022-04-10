@@ -60,8 +60,13 @@ public class LibraryServiceImpl implements LibraryService {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
         userEntity.getBookEntitySet().removeIf(book -> book.getId().equals(bookId));
 
-        BookEntity bookEntity = bookRepository.findByIdAndExistedTrue(bookId).orElseThrow(() -> new BookNotExistsException(BOOK_NOT_EXISTS_MSG));
-        bookEntity.setCopy(bookEntity.getCopy() + 1);
+        BookEntity bookEntity = bookRepository.findById(bookId).orElseThrow(() -> new BookNotExistsException(BOOK_NOT_EXISTS_MSG));
+        if (!bookEntity.isExisted()) {
+            bookEntity.setExisted(true);
+            bookEntity.setCopy(1);
+        } else {
+            bookEntity.setCopy(bookEntity.getCopy() + 1);
+        }
 
         userRepository.save(userEntity);
         bookRepository.save(bookEntity);
