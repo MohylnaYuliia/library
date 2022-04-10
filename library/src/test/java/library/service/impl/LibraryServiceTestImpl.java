@@ -4,6 +4,7 @@ import library.entity.BookEntity;
 import library.entity.UserEntity;
 import library.exception.BookNotExistsException;
 import library.exception.UserCannotBorrowBookException;
+import library.exception.UserCannotBorrowSameBookTwice;
 import library.exception.UserNotExistsException;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
@@ -97,6 +98,32 @@ public class LibraryServiceTestImpl {
 
         Assertions.assertFalse(books.get(0).isExisted());
         Assertions.assertEquals(0, books.get(0).getCopy());
+        Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
+        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    @ExceptionHandler
+    public void testWhenUserCannotBorrowCopyOfSameBook() {
+        bookRepository.save(BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(true).copy(2).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").build());
+
+        libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+
+        UserCannotBorrowSameBookTwice exception = Assertions.assertThrows(UserCannotBorrowSameBookTwice.class, () -> {
+            libraryService.borrowBook(FIRST_USER_ID, FIRST_BOOK_ID);
+        });
+
+        Assertions.assertEquals("User cannot borrow the same book twice", exception.getMessage());
+
+        List<BookEntity> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+
+        Assertions.assertTrue(books.get(0).isExisted());
+        Assertions.assertEquals(1, books.get(0).getCopy());
+
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
         Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
     }
