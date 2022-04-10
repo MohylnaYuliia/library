@@ -9,4 +9,6 @@ public interface LibraryService {
     List<BookEntity> getAllBooks();
 
     void borrowBook(int firstUserId, int firstBookId);
+
+    void returnBook(Integer bookId);
 }
