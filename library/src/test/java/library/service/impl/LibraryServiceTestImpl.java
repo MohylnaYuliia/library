@@ -101,8 +101,6 @@ public class LibraryServiceTestImpl {
         Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
     }
 
-
-
     @Test
     @Transactional
     @Rollback

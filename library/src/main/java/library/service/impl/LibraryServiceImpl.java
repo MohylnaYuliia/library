@@ -39,6 +39,9 @@ public class LibraryServiceImpl implements LibraryService {
         userEntity.getBookEntitySet().add(bookEntity);
         if (bookEntity.getCopy() > 1) {
             bookEntity.setCopy(bookEntity.getCopy() - 1);
+        } else {
+            bookEntity.setCopy(0);
+            bookEntity.setExisted(false);
         }
         userRepository.save(userEntity);
     }
