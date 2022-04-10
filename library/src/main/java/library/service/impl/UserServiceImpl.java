@@ -24,6 +24,6 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         List<UserEntity> result = new ArrayList<>();
         userRepository.findAll().forEach(result::add);
-        return mapper.mapToDtoList(result);
+        return mapper.map(result);
     }
 }

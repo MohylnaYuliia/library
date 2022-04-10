@@ -43,14 +43,14 @@ class UserServiceImplTest {
     public void testGetAllUsers() {
         BookEntity book = BookEntity.builder().id(1).name("Book").existed(true).copy(1).build();
         bookRepository.save(book);
-        userRepository.save(UserEntity.builder().id(1).name("name").bookEntitySet(new HashSet<>(Arrays.asList(book))).build());
+        userRepository.save(UserEntity.builder().id(1).name("name").books(new HashSet<>(Arrays.asList(book))).build());
 
 
         List<UserDto> users = userService.getAllUsers();
         Assertions.assertEquals("name", users.get(0).getName());
         Assertions.assertEquals(1, users.get(0).getId());
 
-        List<BookDto> bookDtos = new ArrayList<>(users.get(0).getBookDtoHashSet());
+        List<BookDto> bookDtos = new ArrayList<>(users.get(0).getBooks());
         Assertions.assertEquals(1, bookDtos.get(0).getId());
         Assertions.assertEquals("Book", bookDtos.get(0).getName());
     }

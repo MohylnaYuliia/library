@@ -81,7 +81,7 @@ public class LibraryServiceTestImpl {
         Assertions.assertTrue(books.get(0).isExisted());
         Assertions.assertEquals(1, books.get(0).getCopy());
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(1, userBooks.get().getBooks().size());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class LibraryServiceTestImpl {
         Assertions.assertFalse(books.get(0).isExisted());
         Assertions.assertEquals(0, books.get(0).getCopy());
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(1, userBooks.get().getBooks().size());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class LibraryServiceTestImpl {
         Assertions.assertEquals(1, books.get(0).getCopy());
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(1, userBooks.get().getBooks().size());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class LibraryServiceTestImpl {
         Assertions.assertTrue(books.get(2).isExisted());
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(2, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(2, userBooks.get().getBooks().size());
     }
 
     @Test
@@ -205,12 +205,12 @@ public class LibraryServiceTestImpl {
         BookEntity bookSecond = BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).existed(true).copy(1).build();
         bookRepository.save(book);
         bookRepository.save(bookSecond);
-        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").bookEntitySet(new HashSet<>(Arrays.asList(book, bookSecond))).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").books(new HashSet<>(Arrays.asList(book, bookSecond))).build());
 
         libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(1, userBooks.get().getBooks().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
@@ -227,12 +227,12 @@ public class LibraryServiceTestImpl {
     public void testWhenBookNotExistedAndUserReturnsOneBookAndLibraryReflects() {
         BookEntity book = BookEntity.builder().id(FIRST_BOOK_ID).name(FIRST_BOOK_NAME).existed(false).copy(0).build();
         bookRepository.save(book);
-        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").bookEntitySet(new HashSet<>(Arrays.asList(book))).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").books(new HashSet<>(Arrays.asList(book))).build());
 
         libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(0, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(0, userBooks.get().getBooks().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
@@ -249,12 +249,12 @@ public class LibraryServiceTestImpl {
         BookEntity bookSecond = BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).existed(true).copy(1).build();
         bookRepository.save(book);
         bookRepository.save(bookSecond);
-        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").bookEntitySet(new HashSet<>(Arrays.asList(book, bookSecond))).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").books(new HashSet<>(Arrays.asList(book, bookSecond))).build());
 
         libraryService.returnBook(FIRST_USER_ID, 0);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(0, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(0, userBooks.get().getBooks().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
@@ -275,7 +275,7 @@ public class LibraryServiceTestImpl {
         libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(0, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(0, userBooks.get().getBooks().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
@@ -292,12 +292,12 @@ public class LibraryServiceTestImpl {
         BookEntity bookSecond = BookEntity.builder().id(SECOND_BOOK_ID).name(SECOND_BOOK_NAME).existed(true).copy(1).build();
         bookRepository.save(book);
         bookRepository.save(bookSecond);
-        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").bookEntitySet(new HashSet<>(Arrays.asList(book))).build());
+        userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").books(new HashSet<>(Arrays.asList(book))).build());
 
         libraryService.returnBook(FIRST_USER_ID, SECOND_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
-        Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());
+        Assertions.assertEquals(1, userBooks.get().getBooks().size());
 
         List<BookEntity> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);

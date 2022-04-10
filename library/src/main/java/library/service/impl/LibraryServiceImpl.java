@@ -36,14 +36,14 @@ public class LibraryServiceImpl implements LibraryService {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
         BookEntity bookEntity = bookRepository.findByIdAndExistedTrue(bookId).orElseThrow(() -> new BookNotExistsException(BOOK_NOT_EXISTS_MSG));
 
-        if (userEntity.getBookEntitySet().size() >= USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS) {
+        if (userEntity.getBooks().size() >= USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS) {
             throw new UserCannotBorrowBookException(USER_CANNOT_BORROW_BOOK_MSG);
         }
-        if (userEntity.getBookEntitySet().stream().anyMatch(book -> book.getId().equals(bookId))) {
+        if (userEntity.getBooks().stream().anyMatch(book -> book.getId().equals(bookId))) {
             throw new UserCannotBorrowSameBookTwice(USER_CANNOT_BORROW_THE_SAME_BOOK_TWICE_MSG);
         }
 
-        userEntity.getBookEntitySet().add(bookEntity);
+        userEntity.getBooks().add(bookEntity);
 
         if (bookEntity.getCopy() > 1) {
             bookEntity.setCopy(bookEntity.getCopy() - 1);
@@ -59,22 +59,22 @@ public class LibraryServiceImpl implements LibraryService {
     public void returnBook(Integer userId, Integer bookId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
         if (bookId == 0) {
-            userEntity.getBookEntitySet().forEach(book -> {
+            userEntity.getBooks().forEach(book -> {
                 changeBookSettings(book.getId());
             });
 
-            userEntity.getBookEntitySet().clear();
+            userEntity.getBooks().clear();
             userRepository.save(userEntity);
             return;
         }
-        if (userEntity.getBookEntitySet().isEmpty()) {
+        if (userEntity.getBooks().isEmpty()) {
             return;
         }
-        if (userEntity.getBookEntitySet().stream().noneMatch(book -> book.getId().equals(bookId))) {
+        if (userEntity.getBooks().stream().noneMatch(book -> book.getId().equals(bookId))) {
             return;
         }
 
-        userEntity.getBookEntitySet().removeIf(book -> book.getId().equals(bookId));
+        userEntity.getBooks().removeIf(book -> book.getId().equals(bookId));
         changeBookSettings(bookId);
         userRepository.save(userEntity);
     }

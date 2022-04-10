@@ -9,7 +9,5 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {BookEntityToDto.class})
 public interface UserEntityToDtoMapper {
 
-    List<UserDto> mapToDtoList(List<UserEntity> userEntity);
-
-    UserDto mapToDto(UserEntity userEntity);
+    List<UserDto> map(List<UserEntity> userEntity);
 }

@@ -19,5 +19,5 @@ public class UserDto {
     private String name;
 
     @Builder.Default
-    Set<BookDto> bookDtoHashSet = new HashSet<>();
+    Set<BookDto> books = new HashSet<>();
 }
