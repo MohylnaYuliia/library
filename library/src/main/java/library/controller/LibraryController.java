@@ -26,11 +26,11 @@ public class LibraryController {
 
     @DeleteMapping("/books/{bookId}/users/{userId}")
     public void returnBook(@PathVariable Integer bookId, @PathVariable Integer userId) {
-        libraryService.borrowBook(userId, bookId);
+        libraryService.returnBook(userId, bookId);
     }
 
     @DeleteMapping("/books/users/{userId}")
     public void returnALLBook(@PathVariable Integer userId) {
-        libraryService.borrowBook(userId, 0);
+        libraryService.returnBook(userId, 0);
     }
 }
