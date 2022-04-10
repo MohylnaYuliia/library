@@ -29,8 +29,8 @@ public class Application {
             userRepository.save(UserEntity.builder().id(1).name("John").build());
             userRepository.save(UserEntity.builder().id(2).name("Brian").build());
 
-            bookRepository.save(BookEntity.builder().id(1).name("Harry Potter").build());
-            bookRepository.save(BookEntity.builder().id(2).name("Harry Potter and chamber of secret").build());
+            bookRepository.save(BookEntity.builder().id(1).name("Harry Potter").existed(true).build());
+            bookRepository.save(BookEntity.builder().id(2).name("Harry Potter and chamber of secret").existed(true).build());
         };
     }
 }

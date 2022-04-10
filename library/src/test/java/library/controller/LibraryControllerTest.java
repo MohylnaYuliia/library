@@ -40,7 +40,7 @@ class LibraryControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", Matchers.hasSize(1)))
-                .andExpect(jsonPath("$[0].*", Matchers.hasSize(4)))
+                .andExpect(jsonPath("$[0].*", Matchers.hasSize(3)))
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("name"));
     }

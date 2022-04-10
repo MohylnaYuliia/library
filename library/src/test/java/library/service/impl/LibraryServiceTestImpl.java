@@ -42,8 +42,8 @@ public class LibraryServiceTestImpl {
 
     @BeforeEach
     public void setup() {
-        bookRepository.deleteAll();
         userRepository.deleteAll();
+        bookRepository.deleteAll();
     }
 
     @Test
