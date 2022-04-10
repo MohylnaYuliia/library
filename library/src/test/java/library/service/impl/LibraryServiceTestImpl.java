@@ -207,7 +207,7 @@ public class LibraryServiceTestImpl {
         bookRepository.save(bookSecond);
         userRepository.save(UserEntity.builder().id(FIRST_USER_ID).name("John").bookEntitySet(new HashSet<>(Arrays.asList(book, bookSecond))).build());
 
-        libraryService.returnBook(FIRST_BOOK_ID);
+        libraryService.returnBook(FIRST_USER_ID, FIRST_BOOK_ID);
 
         Optional<UserEntity> userBooks = userRepository.findById(FIRST_USER_ID);
         Assertions.assertEquals(1, userBooks.get().getBookEntitySet().size());

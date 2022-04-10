@@ -10,5 +10,5 @@ public interface LibraryService {
 
     void borrowBook(int firstUserId, int firstBookId);
 
-    void returnBook(Integer bookId);
+    void returnBook(Integer firstUserId, Integer bookId);
 }
