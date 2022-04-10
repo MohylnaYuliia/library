@@ -66,11 +66,14 @@ public class LibraryServiceImpl implements LibraryService {
             userEntity.getBookEntitySet().clear();
             userRepository.save(userEntity);
             return;
-
         }
         if (userEntity.getBookEntitySet().isEmpty()) {
             return;
         }
+        if (userEntity.getBookEntitySet().stream().noneMatch(book -> book.getId().equals(bookId))) {
+            return;
+        }
+
         userEntity.getBookEntitySet().removeIf(book -> book.getId().equals(bookId));
         changeBookSettings(bookId);
         userRepository.save(userEntity);
