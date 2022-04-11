@@ -8,7 +8,7 @@ public interface LibraryService {
 
     List<BookEntity> getAllBooks();
 
-    void borrowBook(int firstUserId, int firstBookId);
+    void borrowBook(Integer firstUserId, Integer firstBookId);
 
     void returnBook(Integer firstUserId, Integer bookId);
 }

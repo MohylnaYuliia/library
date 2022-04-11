@@ -32,7 +32,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public void borrowBook(int userId, int bookId) {
+    public void borrowBook(Integer userId, Integer bookId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
         BookEntity bookEntity = bookRepository.findByIdAndExistedTrue(bookId).orElseThrow(() -> new BookNotExistsException(BOOK_NOT_EXISTS_MSG));
 
