@@ -35,7 +35,7 @@ class LibraryControllerTest {
     public void testGetAllBooks() throws Exception {
         when(service.getAllBooks()).thenReturn(Arrays.asList(BookEntity.builder().id(1).name("name").existed(true).build()));
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/library/books/")
+                .get("/library/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

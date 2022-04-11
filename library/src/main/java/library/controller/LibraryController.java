@@ -16,7 +16,7 @@ public class LibraryController {
     @Autowired
     private LibraryService libraryService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<BookEntity> getAllBooks() {
         return libraryService.getAllBooks();
     }
