@@ -11,3 +11,5 @@ For UserController and UserService I didn't use TDD. TDD was used only for stori
 In UserController I return Dto so that user cannot see all information about book.
 In all controllers I return Ids to make testing simple. 
 I tested also negative scenarious and threw exceptions where needed. 
+
+gradlew, gradlew.bat , settings.gradle were added by idea
