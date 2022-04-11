@@ -58,7 +58,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     public void returnBook(Integer userId, Integer bookId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotExistsException(USER_NOT_EXISTS_MSG));
-        if (bookId == 0) {
+        if (bookId == DEFAULT_BOOK_VALUE) {
             userEntity.getBooks().forEach(book -> {
                 changeBookSettings(book.getId());
             });

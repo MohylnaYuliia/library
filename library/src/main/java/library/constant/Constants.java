@@ -13,5 +13,6 @@ public final class Constants {
 
 
     public final static int USER_ALLOWED_NUMBER_OF_BORROWED_BOOKS = 2;
+    public final static int DEFAULT_BOOK_VALUE = 0;
 
 }

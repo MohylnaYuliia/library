@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static library.constant.Constants.DEFAULT_BOOK_VALUE;
+
 @RestController
 @RequestMapping("/library/books")
 public class LibraryController {
@@ -31,6 +33,6 @@ public class LibraryController {
 
     @DeleteMapping("/users/{userId}")
     public void returnALLBook(@PathVariable Integer userId) {
-        libraryService.returnBook(userId, 0);
+        libraryService.returnBook(userId, DEFAULT_BOOK_VALUE);
     }
 }
